@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "stag-setup"
+version = "0.1.0"
+description = ""
+authors = ["yoptohlejepeta <peta.kotlan@seznam.cz>"]
+readme = "README.md"
+packages = [{include = "stag_setup"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.103.1"
+pandas = "^2.1.0"
+httpx = "^0.25.0"
+uvicorn = "^0.23.2"
+jinja2 = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
