@@ -7,7 +7,7 @@ router = APIRouter(prefix="/home", tags=["Home page"])
 
 
 @router.get("/")
-async def home(request: Request, stagUserTicket: str = None):
+async def home(request: Request, stagUserTicket: str):
     return templates.TemplateResponse(
         "home.html", {"request": request, "ticket": stagUserTicket}
     )
