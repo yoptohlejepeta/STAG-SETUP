@@ -32,4 +32,5 @@ app.include_router(home.router)
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="localhost", port=8000)
+    # nefunguje s __main__?
+    uvicorn.run("main:app", host="localhost", port=8000, reload=True)

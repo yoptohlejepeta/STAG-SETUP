@@ -15,5 +15,4 @@ Příprava pro aplikace, které potřebují přihlášení přes [Ujep STAG](htt
 
 ## TODO
 
-* --reload
 * Session
