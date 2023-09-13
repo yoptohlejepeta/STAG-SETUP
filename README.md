@@ -9,7 +9,6 @@ Příprava pro aplikace, které potřebují přihlášení přes [Ujep STAG](htt
 
 1. Vytvořte soubor **.env** (podle vzoru **.env_example**), včetně proměnné **APP__LOGIN_URL**
 2. Změňte **origin_url** parametr na URL stránky, na kterou budete chtít vrátit stagUserTicket
-<<<<<<< HEAD
 3.
     ```
     uvicorn app.main:app --reload 
