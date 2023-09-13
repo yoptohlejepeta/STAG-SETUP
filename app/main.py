@@ -1,13 +1,22 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from dotenv import load_dotenv
-import os
+import redis
 
-from routers import home
+from .routers import home
+from .settings import Settings
+from .ticket import get_ticket
 
-load_dotenv()
-app = FastAPI()
+
+settings = Settings()
+r = redis.Redis(
+    host=settings.redis.host, port=settings.redis.port, db=settings.redis.db
+)
+app = FastAPI(
+    
+    docs_url=None,
+    redoc_url=None,
+)
 templates = Jinja2Templates(directory="app/templates")
 
 
@@ -15,12 +24,18 @@ templates = Jinja2Templates(directory="app/templates")
 async def handler_404(request: Request, exc: HTTPException):
     return templates.TemplateResponse("404.html", {"request": request})
 
+@app.exception_handler(401)
+async def handler_401(request: Request, exc: HTTPException):
+    login_url = settings.app.login_url
+    return templates.TemplateResponse("401.html", {"request": request, "login_url": login_url})
+
 
 @app.get("/")
-def login(request: Request, stagUserTicket: str = None):
-    login_url = os.getenv("LOGIN_URL")
+def login(request: Request, stagUserTicket: str | None = None):
+    login_url = settings.app.login_url
     if stagUserTicket:
-        return RedirectResponse(url=f"/home/?stagUserTicket={stagUserTicket}")
+        r.setex("stagUserTicket", 1800, stagUserTicket)
+        return RedirectResponse(url=f"/home")
     else:
         return templates.TemplateResponse(
             "login.html", {"request": request, "login_url": login_url}
@@ -28,9 +43,3 @@ def login(request: Request, stagUserTicket: str = None):
 
 
 app.include_router(home.router)
-
-if __name__ == "__main__":
-    import uvicorn
-
-    # nefunguje s __main__?
-    uvicorn.run("main:app", host="localhost", port=8000, reload=True)

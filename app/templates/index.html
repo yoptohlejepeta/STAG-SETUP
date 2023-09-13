@@ -5,7 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <title>STAG • Setup</title>
+    <title>STAG • {% block title %}{% endblock %}</title>
+    <style>
+        h1 {
+            text-align: center;
+            padding: 30px;
+            font-size: 3em;
+        }
+    </style>
     {% block head %}{% endblock %}
 </head>
 
